@@ -28,11 +28,19 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lib.version>1.8</lib.version>
+        <httpclient.version>4.5</httpclient.version>
     </properties>
 
     <distributionManagement>
+        <repository>
+            <id>huotu-nexus</id>
+            <name>Nexus Release Repository</name>
+            <url>http://repo.51flashmall.com:8081/nexus/content/repositories/releases/</url>
+        </repository>
         <snapshotRepository>
-            <id>Huotu-snapshot-repo</id>
+            <id>huotu-nexus</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://repo.51flashmall.com:8081/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
@@ -59,7 +67,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5</version>
+            <version>${httpclient.version}</version>
         </dependency>
 
         <dependency>
