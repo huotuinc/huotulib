@@ -40,9 +40,9 @@ public class ApiResultHandler implements HandlerMethodReturnValueHandler {
             rr.setSystemResultDescription("返回了无效业务结果");
         } else {
             rr.setSystemResultCode(1);
-            rr.setResultCode(((ICommonEnum) result).getValue());
+            rr.setResultCode(((ICommonEnum)result.getResultCode()).getValue());
             if (result.getResultDescription() == null) {
-                rr.setResultDescription(((ICommonEnum) result).getName());
+                rr.setResultDescription(((ICommonEnum)result.getResultCode()).getName());
             }
         }
 

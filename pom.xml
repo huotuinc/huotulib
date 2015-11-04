@@ -8,7 +8,6 @@
     <artifactId>huotulib</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    
     <pluginRepositories>
         <pluginRepository>
             <id>repo-jc</id>
