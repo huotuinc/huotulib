@@ -18,17 +18,22 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * http请求处理
- *
+ * <p>
  * Created by Administrator on 2015/9/17.
  */
 public class HttpHelper {
@@ -52,7 +57,7 @@ public class HttpHelper {
         post.setEntity(
                 EntityBuilder.create()
                         .setContentEncoding("UTF-8")
-                        .setContentType(ContentType.APPLICATION_FORM_URLENCODED)
+                        .setContentType(ContentType.create("application/x-www-form-urlencoded", Charset.forName("UTF-8")))
                         .setParameters(basicNameValuePairs)
                         .build()
         );
@@ -73,6 +78,7 @@ public class HttpHelper {
 
     /**
      * http get请求
+     *
      * @param url
      * @return
      * @throws IOException
@@ -89,6 +95,33 @@ public class HttpHelper {
         while ((line = reader.readLine()) != null) {
             stringBuffer.append(line);
         }
+        return stringBuffer.toString();
+    }
+
+
+    /**
+     * 异步http get请求
+     * @param url
+     * @return
+     * @throws IOException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public static String getAsyncRequest(String url) throws IOException, ExecutionException, InterruptedException {
+        HttpGet httpGet = new HttpGet(url);
+        CloseableHttpAsyncClient httpClient = HttpAsyncClients.createDefault();
+        Future<HttpResponse> future = httpClient.execute(httpGet, null);
+        HttpResponse response = future.get();
+
+        InputStream inputStream = response.getEntity().getContent();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+
+        StringBuffer stringBuffer = new StringBuffer();
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            stringBuffer.append(line);
+        }
+        httpClient.close();
         return stringBuffer.toString();
     }
 
