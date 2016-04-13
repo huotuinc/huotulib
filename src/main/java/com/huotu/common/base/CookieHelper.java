@@ -19,9 +19,15 @@ public class CookieHelper {
      */
     public static void set(HttpServletResponse response, String name, String value, String domain, int expiry) {
         //创建加密的用户cookie
+        set(response, name, value, domain, "/", expiry);
+    }
+
+    public static void set(HttpServletResponse response, String name, String value, String domain, String path, int expiry) {
+        //创建加密的用户cookie
         Cookie cookie = new Cookie(name, value);
         cookie.setMaxAge(expiry);
         cookie.setDomain(domain);
+        cookie.setPath(path);
         response.addCookie(cookie);
     }
 

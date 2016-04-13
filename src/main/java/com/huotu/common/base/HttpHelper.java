@@ -110,6 +110,7 @@ public class HttpHelper {
     public static String getAsyncRequest(String url) throws IOException, ExecutionException, InterruptedException {
         HttpGet httpGet = new HttpGet(url);
         CloseableHttpAsyncClient httpClient = HttpAsyncClients.createDefault();
+        httpClient.start();
         Future<HttpResponse> future = httpClient.execute(httpGet, null);
         HttpResponse response = future.get();
 
